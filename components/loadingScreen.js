@@ -14,9 +14,12 @@ const LoadingScreen = ({ navigation }) => {
                 OpenSans_Bold: require("../assets/fonts/OpenSans-Bold.ttf"),
                 OpenSans_ExtraBold: require("../assets/fonts/OpenSans-ExtraBold.ttf"),
             });
-            navigation.navigate('Splash');
+
+            navigation.push('Splash');
         }
-        loadFont();
+        setTimeout(() => {
+            loadFont();
+        }, 1000);
     })
     return (
         <View style={{ flex: 1, backgroundColor: Colors.whiteColor }} />

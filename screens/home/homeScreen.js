@@ -480,14 +480,14 @@ const HomeScreen = ({ navigation }) => {
                 <View style={{ alignItems: 'center' }}>
                     <Image
                         source={require('../../assets/images/homeAppLogo.png')}
-                        style={{ wiidth: 26.0, height: 26.0, resizeMode: 'contain' }}
+                        style={{ width: 26.0, height: 26.0, resizeMode: 'contain' }}
                     />
                     <Text>
                         <Text style={{ ...Fonts.primaryColor12ExtraBold }}>
-                            Social { }
+                            Harmonie { }
                         </Text>
                         <Text style={{ ...Fonts.secondaryColor12ExtraBold }}>
-                            Media
+                            Predeal
                         </Text>
                     </Text>
                 </View>

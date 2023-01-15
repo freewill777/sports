@@ -6,7 +6,7 @@ const SplashScreen = ({ navigation }) => {
 
     setTimeout(() => {
         navigation.push('Onboarding');
-    }, 2000);
+    }, 3000);
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.secondaryColor }}>
@@ -22,7 +22,7 @@ const SplashScreen = ({ navigation }) => {
         return (
             <Image
                 source={require('../assets/images/appLogo.png')}
-                style={{ width: 50.0, height: 50.0, resizeMode: 'contain' }}
+                style={{ resizeMode: 'contain' }}
             />
         )
     }
@@ -31,10 +31,10 @@ const SplashScreen = ({ navigation }) => {
         return (
             <Text style={{ marginTop: Sizes.fixPadding - 5.0, }}>
                 <Text style={{ ...Fonts.primaryColor20ExtraBold }}>
-                    Social { }
+                    Harmonie { }
                 </Text>
                 <Text style={{ ...Fonts.whiteColor20ExtraBold }}>
-                    Media
+                    Predeal
                 </Text>
             </Text>
         )

@@ -11,20 +11,20 @@ const OnboardingScreen = ({ navigation }) => {
         {
             id: '1',
             onboardingImage: require('../../assets/images/onboarding/onboarding1.png'),
-            onboardingTitle: 'Find More Friends',
-            onboardingDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum tellus varius neque congue amet fames nisi, egestas.',
+            onboardingTitle: 'Bine ai venit!',
+            onboardingDescription: 'Suntem bucuroși că te-ai alăturat comunității noastre și te așteptăm să-ți găsești locul perfect pentru cazare.',
         },
         {
             id: '2',
-            onboardingImage: require('../../assets/images/onboarding/onboarding2.png'),
-            onboardingTitle: 'Capture Your Best Moments',
-            onboardingDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum tellus varius neque congue amet fames nisi, egestas.',
+            onboardingImage: require('../../assets/images/onboarding/onboarding3.png'),
+            onboardingTitle: 'Crează-ți contul',
+            onboardingDescription: 'Este simplu și rapid să-ți creezi contul. Doar introduce informațiile necesare și vei fi gata să cauți locul perfect pentru tine.',
         },
         {
             id: '3',
-            onboardingImage: require('../../assets/images/onboarding/onboarding3.png'),
-            onboardingTitle: 'Share Your Stroy',
-            onboardingDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum tellus varius neque congue amet fames nisi, egestas.',
+            onboardingImage: require('../../assets/images/onboarding/onboarding2.png'),
+            onboardingTitle: 'Inscrie-te la competiții',
+            onboardingDescription: 'Participă la competițiile sportive organizate de alți utilizatori și distrează-te alături de alți sportivi entuziaști. Fii sigur că vei avea o experiență distractivă și poți chiar câștiga premii.',
         },
     ];
 

@@ -2,65 +2,60 @@ import { StyleSheet, Text, View, SafeAreaView, StatusBar, FlatList, Image, Touch
 import React, { useState, useEffect } from 'react'
 import { Colors, Fonts, Sizes } from '../../constants/styles'
 import { MaterialIcons } from '@expo/vector-icons';
+import { useLayoutEffect } from 'react';
 
-import { useCallback } from 'react';
-
-import usersList from './usersList';
-
-// import { socket } from '../../socket';
 import io from "socket.io-client";
-
+import userList from './users';
+import channelList from './channelList';
 export const socket = io("http://192.168.0.17:3000");
+
+const handleNewMessage = () => {
+    const hour =
+        new Date().getHours() < 10
+            ? `0${new Date().getHours()}`
+            : `${new Date().getHours()}`;
+
+    const mins =
+        new Date().getMinutes() < 10
+            ? `0${new Date().getMinutes()}`
+            : `${new Date().getMinutes()}`;
+
+    if (user) {
+        socket.emit("newMessage", {
+            message,
+            room_id: id,
+            user,
+            timestamp: { hour, mins },
+        });
+    }
+};
 
 const MessageScreen = ({ navigation }) => {
 
-    const [messages, setMessages] = useState([])
-    const [users, setUsers] = useState([])
+    const [onlineUsers, setOnlineUsers] = useState(userList)
+    const [availableChannels, setAvailableChannels] = useState(channelList)
 
-    const addMessage = useCallback(function (msg) {
-        setMessages((messages) => {
-            if (messages.length < 5) {
-                return [...messages, {
-                    id: msg + ' ' + Date.now(),
-                    userProfilePic: require('../../assets/images/users/user26.png'),
-                    userProfileName: 'Royok',
-                }]
-            } else {
-                return []
-            }
-        })
-        setUsers((users) => {
-            if (users.length < 5) {
-                return [...users, {
-                    id: Date.now(),
-                    userProfilePic: require('../../assets/images/users/user12.png'),
-                    userProfileName: 'jiyashah_',
-                    lastMsg: 'Lorem Ipsum is simply dummy text',
-                    lastMsgTime: '10:50 am',
-                    isActive: true,
-                }]
-            } else {
-                return []
-            }
-        })
-    })
-
-    useEffect(() => {
-        console.log('msg', messages)
-    }, [messages])
-
-    useEffect(() => {
-        socket.on("chatMsg", (msg) => {
-            addMessage(msg);
+    useLayoutEffect(() => {
+        socket.emit("getRoomsList");
+        socket.on("roomsList", (roomsList) => {
+            setAvailableChannels(roomsList);
         });
+        socket.on("usersList", (usersList) => {
+            setOnlineUsers(usersList);
+        });
+    }, []);
+
+    useEffect(() => {
         return () => {
-            socket.off("chatMsg");
+            socket.disconnect();
         };
     }, [])
 
-    useEffect(() => {
-        console.log("client initialized");
-    }, []);
+    React.useEffect(() => {
+        navigation.setOptions({
+            socket,
+        });
+    }, [navigation, socket]);
 
     return (
         <SafeAreaView
@@ -100,7 +95,7 @@ const MessageScreen = ({ navigation }) => {
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    data={messages}
+                    data={onlineUsers}
                     keyExtractor={(item) => `${item.id}`}
                     renderItem={renderItem}
                     contentContainerStyle={{ paddingHorizontal: Sizes.fixPadding + 5.0, paddingVertical: Sizes.fixPadding * 2.0, }}
@@ -109,49 +104,63 @@ const MessageScreen = ({ navigation }) => {
         )
     }
 
+
+
     function ChatsInfo() {
-        const renderItem = ({ item }) => (
-            <View style={{ marginHorizontal: Sizes.fixPadding * 2.0, }}>
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => { navigation.push('Chat') }}
-                    style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-                >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, }}>
-                        <View>
-                            <Image
-                                source={item.userProfilePic}
-                                style={{ width: 50.0, height: 50.0, borderRadius: 25.0, }}
-                            />
-                            {
-                                item.isActive
-                                    ?
-                                    <View style={styles.activeBigIndicatorStyle} />
-                                    :
-                                    null
-                            }
+        const renderItem = ({ item }) => {
+            const { userProfileName } = item
+            return (
+                <View style={{ marginHorizontal: Sizes.fixPadding * 2.0, }}>
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() => {
+                            navigation.push('Chat', {
+                                room: userProfileName,
+                                socket,
+                            })
+                        }}
+                        style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+                    >
+                        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, }}>
+                            <View>
+                                <Image
+                                    source={item.userProfilePic}
+                                    style={{ width: 50.0, height: 50.0, borderRadius: 25.0, }}
+                                />
+                                {
+                                    item.isActive
+                                        ?
+                                        <View style={styles.activeBigIndicatorStyle} />
+                                        :
+                                        null
+                                }
+                            </View>
+                            <View style={{ flex: 1, marginHorizontal: Sizes.fixPadding, }}>
+                                <Text numberOfLines={1} style={{ ...Fonts.blackColor16SemiBold }}>
+                                    {item.userProfileName}
+                                </Text>
+                                <Text numberOfLines={1} style={{ ...Fonts.grayColor14Regular }}>
+                                    {item.lastMsg}
+                                </Text>
+                            </View>
                         </View>
-                        <View style={{ flex: 1, marginHorizontal: Sizes.fixPadding, }}>
-                            <Text numberOfLines={1} style={{ ...Fonts.blackColor16SemiBold }}>
-                                {item.userProfileName}
-                            </Text>
-                            <Text numberOfLines={1} style={{ ...Fonts.grayColor14Regular }}>
-                                {item.lastMsg}
-                            </Text>
-                        </View>
-                    </View>
-                    <Text style={{ ...Fonts.blackColor12SemiBold }}>
-                        {item.lastMsgTime}
-                    </Text>
-                </TouchableOpacity>
-                <View style={{ backgroundColor: Colors.extraLightGrayColor, height: 1.0, marginVertical: Sizes.fixPadding }} />
-            </View>
-        )
+                        <Text style={{ ...Fonts.blackColor12SemiBold }}>
+                            {item.lastMsgTime}
+                        </Text>
+                    </TouchableOpacity>
+                    <View style={{ backgroundColor: Colors.extraLightGrayColor, height: 1.0, marginVertical: Sizes.fixPadding }} />
+                </View>
+            )
+        }
         return (
             <View style={{ flex: 1 }}>
                 {activeUsers()}
                 <FlatList
-                    data={users}
+                    // 
+                    // TODO change this with list received from srv
+                    // 
+                    // 
+                    data={channelList}
                     keyExtractor={(item) => `${item.id}`}
                     renderItem={renderItem}
                     contentContainerStyle={{ paddingBottom: Sizes.fixPadding * 8.0 }}
@@ -164,7 +173,7 @@ const MessageScreen = ({ navigation }) => {
         return (
             <View style={styles.headerWrapStyle}>
                 <Text style={{ ...Fonts.blackColor20SemiBold }}>
-                    Chat
+                    Chat groups
                 </Text>
                 <MaterialIcons name="search" size={22} color={Colors.blackColor} onPress={() => { navigation.push('SearchChat') }} />
             </View>

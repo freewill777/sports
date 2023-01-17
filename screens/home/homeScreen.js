@@ -67,26 +67,26 @@ const dummyText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ipsu
 const todaysPostsList = [
     {
         id: '1',
-        userProfilePic: require('../../assets/images/users/user2.png'),
-        userName: 'Alicia Sierra',
-        userDetail: 'Allentown, New Mexico',
-        aboutPost: dummyText,
+        userProfilePic: require('../../assets/images/users/user37.png'),
+        userName: 'Turneu basket junior 2',
+        userDetail: 'Predeal, Brasov',
+        aboutPost: 'Nu pierdeti ocazia de a fi martori la viitorii campioni de baschet in acțiune, la turneul pentru juniori din Predeal!',
         postLikes: '10k',
         postComments: '100',
         postShares: '35',
-        postImage: require('../../assets/images/posts/post1.png'),
+        postImage: require('../../assets/images/contests/basketball.jpg'),
         postLike: true,
     },
     {
         id: '2',
-        userProfilePic: require('../../assets/images/users/user4.png'),
-        userName: 'Smiti Khana',
-        userDetail: 'Allentown, New Mexico',
-        aboutPost: dummyText,
+        userProfilePic: require('../../assets/images/users/user26.png'),
+        userName: 'Campionat fotbal junior 3',
+        userDetail: 'Predeal, Brasov',
+        aboutPost: 'Vino sa vezi talentele viitorului in acțiune la turneul de fotbal pentru juniori din Predeal!',
         postLikes: '10k',
         postComments: '100',
         postShares: '35',
-        postImage: require('../../assets/images/posts/post2.png'),
+        postImage: require('../../assets/images/contests/football.jpg'),
         postLike: false,
     },
 ];
@@ -95,35 +95,35 @@ const suggestionsList = [
     {
         id: '1',
         userProfilePic: require('../../assets/images/users/user11.png'),
-        userName: 'Tina Shah',
+        userName: 'Cristina Paul',
         userAbout: 'realtinashah',
         isFollow: false,
     },
     {
         id: '2',
         userProfilePic: require('../../assets/images/users/user12.png'),
-        userName: 'Jiya Patel',
+        userName: 'Ana Ionescu',
         userAbout: 'officialjiya',
         isFollow: false,
     },
     {
         id: '3',
         userProfilePic: require('../../assets/images/users/user13.png'),
-        userName: 'Joy Jain',
+        userName: 'Cristi Paul',
         userAbout: 'joyyyyy',
         isFollow: false,
     },
     {
         id: '4',
         userProfilePic: require('../../assets/images/users/user14.png'),
-        userName: 'Ishan Patel',
+        userName: 'Mihai Patel',
         userAbout: 'ishanpatel',
         isFollow: false,
     },
     {
         id: '5',
         userProfilePic: require('../../assets/images/users/user11.png'),
-        userName: 'Tina Shah',
+        userName: 'Ana Shah',
         userAbout: 'realtinashah',
         isFollow: false,
     }
@@ -133,25 +133,25 @@ const oldPostsList = [
     {
         id: '1',
         userProfilePic: require('../../assets/images/users/user3.png'),
-        userName: 'Denny John',
+        userName: 'Campionat fotbal junior 3',
         userDetail: 'Allentown, New Mexico',
         aboutPost: dummyText,
         postLikes: '10k',
         postComments: '100',
         postShares: '35',
-        postImage: require('../../assets/images/posts/post3.png'),
+        postImage: require('../../assets/images/contests/basketball.jpg'),
         postLike: true,
     },
     {
         id: '2',
         userProfilePic: require('../../assets/images/users/user8.png'),
-        userName: 'Roy Khurana',
+        userName: 'Campionat fotbal junior 3',
         userDetail: 'Allentown, New Mexico',
         aboutPost: dummyText,
         postLikes: '10k',
         postComments: '100',
         postShares: '35',
-        postImage: require('../../assets/images/posts/post4.png'),
+        postImage: require('../../assets/images/contests/football.jpg'),
         postLike: false,
     },
     {
@@ -322,10 +322,10 @@ const HomeScreen = ({ navigation }) => {
             <View>
                 <View style={styles.suggestionTitleWrapStyle}>
                     <Text style={{ ...Fonts.blackColor18SemiBold }}>
-                        Suggestion for you
+                        Sugestii de prieteni
                     </Text>
                     <Text style={{ ...Fonts.primaryColor14SemiBold }}>
-                        See All
+                        Vezi mai mult
                     </Text>
                 </View>
                 <FlatList
@@ -440,9 +440,11 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
         )
         return (
-            <View style={{ paddingVertical: Sizes.fixPadding + 5.0 }}>
-                <Text style={{ marginHorizontal: Sizes.fixPadding * 2.0, ...Fonts.primaryColor14Bold }}>
-                    Short Stories
+            <View
+            // style={{ paddingVertical: Sizes.fixPadding + 5.0 }}
+            >
+                {/* <Text style={{ marginHorizontal: Sizes.fixPadding * 2.0, ...Fonts.primaryColor14Bold }}>
+                    Ultimele story-uri
                 </Text>
                 <FlatList
                     data={usersStories}
@@ -452,7 +454,7 @@ const HomeScreen = ({ navigation }) => {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{ paddingLeft: Sizes.fixPadding + 5.0, paddingRight: Sizes.fixPadding, paddingVertical: Sizes.fixPadding - 5.0 }}
                     ListHeaderComponent={addStoryIcon()}
-                />
+                /> */}
             </View>
         )
     }
@@ -468,7 +470,7 @@ const HomeScreen = ({ navigation }) => {
                     <MaterialIcons name="add" size={30} color={Colors.primaryColor} />
                 </View>
                 <Text style={{ marginTop: Sizes.fixPadding - 5.0, ...Fonts.blackColor10Regular }}>
-                    Share story
+                    Adaugă story
                 </Text>
             </TouchableOpacity>
         )

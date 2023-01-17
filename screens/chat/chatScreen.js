@@ -18,7 +18,7 @@ const ChatScreen = ({ navigation, route }) => {
     const [messagesList, setMessagesList] = useState(userMessages);
 
     useLayoutEffect(() => {
-        socket.emit("findRoom", '12345');
+        socket.emit("findRoom", room);
         socket.on("foundRoom", (roomChats) => setMessagesList(roomChats));
     }, []);
 
@@ -33,7 +33,7 @@ const ChatScreen = ({ navigation, route }) => {
                 {header()}
                 <View style={{ flex: 1, }}>
                     {messages()}
-                    {typeMessage()}
+                    {typeMessage(room)}
                 </View>
             </View>
         </SafeAreaView>
@@ -148,7 +148,7 @@ const ChatScreen = ({ navigation, route }) => {
             <View style={{ paddingBottom: Sizes.fixPadding * 8.0, marginTop: Sizes.fixPadding - 5.0 }}>
                 <FlatList
                     inverted
-                    data={userMessages}
+                    data={messagesList}
                     keyExtractor={(item) => `${item?.id}`}
                     renderItem={renderItem}
                     showsVerticalScrollIndicator={false}
@@ -158,7 +158,7 @@ const ChatScreen = ({ navigation, route }) => {
         )
     }
 
-    function addMessage({ message }) {
+    function addMessage({ message, room }) {
 
         const oldMessages = messagesList;
 
@@ -183,16 +183,17 @@ const ChatScreen = ({ navigation, route }) => {
                 id: Math.random().toString(36).substring(2, 10),
                 text: message,
                 user: 'dragonu',
-                time: new Date(Date.now()).toUTCString()
+                time: new Date(Date.now()).toUTCString(),
+                room_id: room
 
             },
-            room_id: '12345',
+            room_id: room,
             user: 'dragonu',
             timestamp: { hour: '', mins: '' },
         });
     }
 
-    function typeMessage() {
+    function typeMessage(room) {
         const [message, setMessage] = useState('');
         return (
             <View style={styles.typeMessageWrapStyle}>
@@ -213,7 +214,7 @@ const ChatScreen = ({ navigation, route }) => {
                     style={{ marginLeft: Sizes.fixPadding - 5.0 }}
                     onPress={() => {
                         if (message != '') {
-                            addMessage({ message: message })
+                            addMessage({ message: message, room: room })
                             setMessage('');
                         }
                     }}

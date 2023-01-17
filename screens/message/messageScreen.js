@@ -9,27 +9,6 @@ import userList from './users';
 import channelList from './channelList';
 export const socket = io("http://192.168.0.17:3000");
 
-const handleNewMessage = () => {
-    const hour =
-        new Date().getHours() < 10
-            ? `0${new Date().getHours()}`
-            : `${new Date().getHours()}`;
-
-    const mins =
-        new Date().getMinutes() < 10
-            ? `0${new Date().getMinutes()}`
-            : `${new Date().getMinutes()}`;
-
-    if (user) {
-        socket.emit("newMessage", {
-            message,
-            room_id: id,
-            user,
-            timestamp: { hour, mins },
-        });
-    }
-};
-
 const MessageScreen = ({ navigation }) => {
 
     const [onlineUsers, setOnlineUsers] = useState(userList)
@@ -108,14 +87,14 @@ const MessageScreen = ({ navigation }) => {
 
     function ChatsInfo() {
         const renderItem = ({ item }) => {
-            const { userProfileName } = item
+            const { name, id } = item
             return (
                 <View style={{ marginHorizontal: Sizes.fixPadding * 2.0, }}>
                     <TouchableOpacity
                         activeOpacity={0.8}
                         onPress={() => {
                             navigation.push('Chat', {
-                                room: userProfileName,
+                                room: id,
                                 socket,
                             })
                         }}
@@ -124,28 +103,21 @@ const MessageScreen = ({ navigation }) => {
                         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, }}>
                             <View>
                                 <Image
-                                    source={item.userProfilePic}
+                                    source={require('../../assets/images/sports/football.jpg')}
                                     style={{ width: 50.0, height: 50.0, borderRadius: 25.0, }}
                                 />
-                                {
-                                    item.isActive
-                                        ?
-                                        <View style={styles.activeBigIndicatorStyle} />
-                                        :
-                                        null
-                                }
                             </View>
                             <View style={{ flex: 1, marginHorizontal: Sizes.fixPadding, }}>
                                 <Text numberOfLines={1} style={{ ...Fonts.blackColor16SemiBold }}>
-                                    {item.userProfileName}
+                                    {item.name}
                                 </Text>
                                 <Text numberOfLines={1} style={{ ...Fonts.grayColor14Regular }}>
-                                    {item.lastMsg}
+                                    {item.id}
                                 </Text>
                             </View>
                         </View>
                         <Text style={{ ...Fonts.blackColor12SemiBold }}>
-                            {item.lastMsgTime}
+                            {item.time}
                         </Text>
                     </TouchableOpacity>
                     <View style={{ backgroundColor: Colors.extraLightGrayColor, height: 1.0, marginVertical: Sizes.fixPadding }} />
@@ -160,7 +132,7 @@ const MessageScreen = ({ navigation }) => {
                     // TODO change this with list received from srv
                     // 
                     // 
-                    data={channelList}
+                    data={availableChannels}
                     keyExtractor={(item) => `${item.id}`}
                     renderItem={renderItem}
                     contentContainerStyle={{ paddingBottom: Sizes.fixPadding * 8.0 }}

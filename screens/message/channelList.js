@@ -1,21 +1,22 @@
+// THIS IS NOT USED ANYMORE, JUST FOR INFO PURPOSES
 const channelList = [{
-    id: '1',
+    id: '12345',
     userProfilePic: require('../../assets/images/sports/basketball.jpg'),
-    userProfileName: 'Basketball channel',
+    userProfileName: 'Griffindor',
     lastMsg: 'Salutare!',
     lastMsgTime: '10:50 am',
     isActive: true,
 }, {
-    id: '2',
+    id: '666',
     userProfilePic: require('../../assets/images/sports/football.jpg'),
-    userProfileName: 'Football zone',
+    userProfileName: 'Da hood',
     lastMsg: 'Buna ziua',
     lastMsgTime: '10:50 am',
     isActive: true,
 }, {
-    id: '3',
+    id: '66',
     userProfilePic: require('../../assets/images/publicPosts/post19.png'),
-    userProfileName: 'Ce mancam?',
+    userProfileName: 'hood',
     lastMsg: 'Like this',
     lastMsgTime: '10:50 am',
     isActive: true,
